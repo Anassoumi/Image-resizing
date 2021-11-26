@@ -1,0 +1,54 @@
+import cv2
+
+
+def myCallback1(val):
+    global xPos
+    print(val)
+    xPos = val
+
+
+def myCallback2(val):
+    global yPos
+    print(val)
+    yPos = val
+
+
+def myCallback3(val):
+    global height
+    print(val)
+    height = val
+
+
+def myCallback4(val):
+    global width
+    print(val)
+    width = val
+
+
+height = 1280
+width = 720
+xPos = int(width / 2)
+yPos = int(height / 2)
+mRadius = 25
+
+cam = cv2.VideoCapture(0)
+cam.set(3, height)
+cam.set(4, width)
+cv2.namedWindow('myTrackbars')
+cv2.resizeWindow('myTrackbars', 800, 800)
+
+cv2.createTrackbar('xPos', 'myTrackbars', 0, 1980, myCallback1)
+cv2.createTrackbar('yPos', 'myTrackbars', 0, 1980, myCallback2)
+cv2.createTrackbar('height', 'myTrackbars', 0, 1980, myCallback3)
+cv2.createTrackbar('width', 'myTrackbars', 0, 1980, myCallback4)
+
+while True:
+    ignore, frame = cam.read()
+
+    cv2.imshow('my WEBcam', frame)
+    cv2.moveWindow('my Webcam', xPos, yPos)
+    cv2.resize('my Webcam', (height, width))
+
+    if cv2.waitKey(100) & 0xff == ord('q'):
+        break
+cam.release()
